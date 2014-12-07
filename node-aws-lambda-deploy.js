@@ -6,7 +6,7 @@ var hl = require ( 'highland' );
 var _ = require ( 'lodash' );
 var args = require ( 'minimist' )( process.argv );
 var plainArgs = _.reject ( args._, function ( arg ) {
-    return ( arg.match ( 'node' ) || arg.match ( '.js' ) );
+    return ( arg.match ( 'node' ) || arg.match ( '.js' ) || arg.match ( 'aws-lambda-deploy' );
 } );
 var recursive = bb.promisify ( require ( 'recursive-readdir' ) );
 var aws = require ( 'aws-sdk' );
