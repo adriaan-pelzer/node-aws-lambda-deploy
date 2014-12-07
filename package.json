@@ -1,6 +1,6 @@
 {
   "name": "node-aws-lambda-deploy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Deploy Lambda function(s) to AWS",
   "preferGlobal": "true",
   "bin": {
