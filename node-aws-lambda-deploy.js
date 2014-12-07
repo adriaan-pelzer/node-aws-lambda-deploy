@@ -49,7 +49,8 @@ if ( ! _.isUndefined ( args.h || args.help ) || _.isEmpty ( plainArgs ) ) {
     usage ();
 }
 
-_.each ( plainArgs, function ( moduleDir ) {
+_.each ( plainArgs, function ( module ) {
+    var moduleDir =  process.cwd () + '/' + module;
     var deployConf = require ( moduleDir + '/deployConf.js' );
 
     var lambdaConf = _.merge ( {
