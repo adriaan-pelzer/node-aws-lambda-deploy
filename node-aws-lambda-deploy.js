@@ -60,7 +60,7 @@ _.each ( plainArgs, function ( moduleDir ) {
 
     var releaseConf = _.merge ( {
         ReleaseFiles: [ 'app.js' ],
-        DevModules: []
+        DevModules: [ 'aws-sdk' ]
     }, _.omit ( deployConf, [ 'Lambda' ] ) );
 
     var releaseFiles = releaseConf.ReleaseFiles;
