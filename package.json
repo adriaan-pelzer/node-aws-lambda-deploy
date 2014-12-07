@@ -1,0 +1,35 @@
+{
+  "name": "node-aws-lambda-deploy",
+  "version": "0.0.1",
+  "description": "Deploy Lambda function(s) to AWS",
+  "preferGlobal": "true",
+  "bin": {
+    "aws-lambda-deploy": "node-aws-lambda-deploy.js"
+  },
+  "main": "node-aws-lambda-deploy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adriaan-pelzer/node-aws-lambda-deploy"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "deploy"
+  ],
+  "author": "Adriaan Pelzer",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/adriaan-pelzer/node-aws-lambda-deploy/issues"
+  },
+  "dependencies": {
+    "bluebird": "~2.3.11",
+    "highland": "~2.1.0",
+    "lodash": "~2.4.1",
+    "minimist": "~1.1.0",
+    "recursive-readdir": "~1.2.0",
+    "aws-sdk": "~2.0.30"
+  }
+}
