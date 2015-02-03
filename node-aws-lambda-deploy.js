@@ -11,7 +11,7 @@ var plainArgs = _.reject ( args._, function ( arg ) {
 var recursive = bb.promisify ( require ( 'recursive-readdir' ) );
 var aws = require ( 'aws-sdk' );
 var lambda = new aws.Lambda ( { region: args.r || args.region || 'eu-west-1' } );
-var spawn = require ( 'child_process' ).spawn;
+var exec = require ( 'child_process' ).exec;
 
 var usage = function () {
     console.log ( 'Usage: aws-lambda-deploy <options> <functions>' );
@@ -110,34 +110,40 @@ _.each ( plainArgs, function ( module ) {
     } )
 
     .toArray ( function ( listOfDeletedFiles ) {
-        var zip = spawn ( 'zip', zipArgs, { cwd: moduleDir } );
-
         console.log ( 'zip', zipArgs, { cwd: moduleDir } );
 
-        zip.on ( 'close', function ( code ) {
-            if ( code === 0 ) {
-                fs.readFile ( moduleDir + '/release.zip', function ( error, zipBuffer ) {
+        exec ( _.flatten ( [ 'zip', zipArgs ] ).join ( ' ' ), function ( error, stdout, stderr ) {
+            if ( error ) {
+                console.error ( error );
+                return;
+            }
+
+            if ( stderr ) {
+                console.error ( stderr );
+                return;
+            }
+
+            console.log ( stdout );
+
+            fs.readFile ( moduleDir + '/release.zip', function ( error, zipBuffer ) {
+                if ( error ) {
+                    console.error ( error );
+                    return;
+                }
+
+                lambda.uploadFunction ( _.extend ( lambdaConf, {
+                    FunctionZip: zipBuffer,
+                    Mode: 'event',
+                    Runtime: 'nodejs',
+                } ), function ( error, result ) {
                     if ( error ) {
                         console.error ( error );
                         return;
                     }
 
-                    lambda.uploadFunction ( _.extend ( lambdaConf, {
-                        FunctionZip: zipBuffer,
-                        Mode: 'event',
-                        Runtime: 'nodejs',
-                    } ), function ( error, result ) {
-                        if ( error ) {
-                            console.error ( error );
-                            return;
-                        }
-
-                        console.log ( result );
-                    } );
+                    console.log ( result );
                 } );
-            } else {
-                console.error ( 'zip failed' );
-            }
+            } );
         } )
     } );
 } );
